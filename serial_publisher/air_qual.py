@@ -19,6 +19,7 @@ class SerialNode(Node):
         self.timer = self.create_timer(2.0, self.run_callback)
 
     def run_callback(self):
+	# read line and prep it for publishing
         line = self.ser.readline().decode().strip()
 
         # log what pyserial has got to terminal
