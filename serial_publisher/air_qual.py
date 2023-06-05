@@ -9,32 +9,43 @@ class SerialNode(Node):
         super().__init__('serial_node')
 
         self.ser = serial.Serial('/dev/pts/1')
+
+        # msg type, topic name, queue size of 10 (drop oldest if exceeded)
         self.publisher_ = self.create_publisher(String, 'air_quality', 10)
 
-    def run(self):
+        self.timer = self.create_timer(2.0, self.run_callback)
 
-        while rclpy.ok():
+    def run_callback(self):
+        line = self.ser.readline().decode().strip()
 
-            line = self.ser.readline().decode().strip()
+        # log what pyserial has got to terminal
+        self.get_logger().info(f'running... {line}')
 
-            self.get_logger().info(f'running... {line}')
+        # make instantiate message object of type string
+        msg = String()
 
-            msg = String()
-            msg.data = line
-            self.publisher_.publish(msg)
+        # make the data of the object equal what pyserial read
+        msg.data = line
 
-    def close(self):
+        # publish the data to our topic we made earlier
+        self.publisher_.publish(msg)
+
+        # close the connection to the serial port
         self.ser.close()
 
 def main(args=None):
+
+    # initialise the rclpy library for use, can pass it arguments too if you wish, 
     rclpy.init(args=args)
+
+    # instantiate node object
     serial_node = SerialNode()
 
-    try:
-        serial_node.run()
-    finally:
-        serial_node.close()
-        rclpy.shutdown()
+    # spin the node so that the callbacks are called
+    rclpy.spin(serial_node)
+
+    # deallocate memory and remove ros2 entities made by the node
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
