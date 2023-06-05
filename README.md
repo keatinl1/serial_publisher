@@ -1,10 +1,24 @@
 # serial_publisher
 ### Read data from a serial port and publish it to a ROS2 node
 
+1.
+Clone this repo into your ROS2 workspace
 
-If you don't have a serial device writing to a port, you can make a virtual one using these steps:
+2.
+Change the serial port in /serial_publisher/serial_publisher/air_qual.py to where you are listening to (line 11)\
+Also change the name of the topic to whichever one you want to publish to (line 12)
 
+3.
+cd back into your ROS2 workspace and colcon build
+
+4.
+then ```ros2 run serial_publisher talker```
+
+_________________________________________________________________________________________________________________
 $~~~~~~~~~~$
+
+### If you don't have a serial device writing to a port, you can make a virtual one using these steps:
+
 
 1.
 
