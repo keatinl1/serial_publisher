@@ -7,12 +7,14 @@ from std_msgs.msg import String
 class SerialNode(Node):
     def __init__(self):
         super().__init__('serial_node')
-
+        
+        # instantiate serial object and assign port to it
         self.ser = serial.Serial('/dev/pts/1')
 
         # msg type, topic name, queue size of 10 (drop oldest if exceeded)
         self.publisher_ = self.create_publisher(String, 'air_quality', 10)
-
+	
+	# execute after 2s and run the callback function
         self.timer = self.create_timer(2.0, self.run_callback)
 
     def run_callback(self):
