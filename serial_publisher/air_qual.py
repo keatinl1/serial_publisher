@@ -20,7 +20,6 @@ class SerialNode(Node):
 
 
     def run_callback(self):
-
         # read line and prep it for publishing
         line = self.ser.readline().decode().strip()
 
@@ -37,7 +36,6 @@ class SerialNode(Node):
         self.publisher_.publish(msg)
 
 def main(args=None):
-
     # initialise the rclpy library for use, can pass it arguments too if you wish, 
     rclpy.init(args=args)
 
