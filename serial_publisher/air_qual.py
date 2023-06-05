@@ -6,18 +6,23 @@ from std_msgs.msg import String
 
 class SerialNode(Node):
     def __init__(self):
+
+        # initializes the parent class with the provided node name.
         super().__init__('serial_node')
-        
+
         # instantiate serial object and assign port to it
         self.ser = serial.Serial('/dev/pts/1')
 
         # msg type, topic name, queue size of 10 (drop oldest if exceeded)
         self.publisher_ = self.create_publisher(String, 'air_quality', 10)
-	
-	# execute after 2s and run the callback function
-        self.timer = self.create_timer(2.0, self.run_callback)
+
+        # execute after 2s and run the callback function
+        self.timer = self.create_timer(0.5, self.run_callback)
+
 
     def run_callback(self):
+
+        # read line and prep it for publishing
         line = self.ser.readline().decode().strip()
 
         # log what pyserial has got to terminal
@@ -31,9 +36,6 @@ class SerialNode(Node):
 
         # publish the data to our topic we made earlier
         self.publisher_.publish(msg)
-
-        # close the connection to the serial port
-        self.ser.close()
 
 def main(args=None):
 
