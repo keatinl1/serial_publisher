@@ -6,6 +6,7 @@ from std_msgs.msg import String
 
 class SerialNode(Node):
     def __init__(self):
+	# initializes the parent class with the provided node name
         super().__init__('serial_node')
         
         # instantiate serial object and assign port to it
