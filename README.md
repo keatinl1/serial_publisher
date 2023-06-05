@@ -12,7 +12,11 @@ Also change the name of the topic to whichever one you want to publish to (line 
 cd back into your ROS2 workspace and colcon build
 
 4.
-then ```ros2 run serial_publisher talker```
+Then ```ros2 run serial_publisher talker```
+
+5.
+You can listen to the topic then with
+```ros2 topic echo /topic_name```
 
 _________________________________________________________________________________________________________________
 $~~~~~~~~~~$
